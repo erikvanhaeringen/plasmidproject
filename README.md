@@ -32,11 +32,11 @@ cd 'path to repository location'
 python Master.py
 ```
 
-*Options*
-* Optional output file of complete dataset after alignment
+**Options**
+* *-o* Optional output file of complete dataset after alignment
 Generates a tab delimited text file of the output to '/alignment/results/' with a name supplied by the user, or as 'Output_DataSet.txt' by default.
 ```shell
--o <FILE_NAME>
+python Master.py -o <FILE_NAME>
 ```
 
 

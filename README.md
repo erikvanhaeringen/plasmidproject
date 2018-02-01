@@ -8,11 +8,11 @@ Erik van Haeringen and Gonçalo Macedo
 January 31st 2018
 
 ## Getting Started
-In the main folder, the user can find this README file, containing information about the general purpose, requirement and options of this program. It also contains a **Master.py** script which controls the three steps of this program: data setup, sequence alignment and statistical analysis. These steps have each their own subfolder, containing a **master.py** script that controls the operations and possible subscripts. For a detailed explanation of the process of each step please see the comments provided in these scripts.
+In the main folder, the user can find this README file, containing information about the general purpose, requirement and options of this program. It also contains a **master.py** script which controls the three steps of this program: data setup, sequence alignment and statistical analysis. These steps have each their own subfolder, containing a **master.py** script that controls the operations and possible subscripts. For a detailed explanation of the process of each step please see the comments provided in these scripts.
 
 ### Prerequisites
 This pipeline was developed with Ubuntu v16.04.3. Therefore, it is recommended to run this script in the same version of Ubuntu in which it was developed.
-It also requires Python (https://www.python.org/, min v2.7.14) and R (https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](.#List-of-modules)
+It also requires Python 2 (https://www.python.org/, min v2.7.14) and R (https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](#List-of-modules)
 
 
 

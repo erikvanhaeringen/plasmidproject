@@ -101,7 +101,7 @@ def main(RelativePath):
     print "Importing samples"
     Temp=[]  
     SampleFileNames=[]
-    SamplePath=PathAddition+"data/test/"
+    SamplePath=PathAddition+"data/samples/"
     for File in os.listdir(SamplePath):
         if File.endswith(".fa"):
             SampleFileNames.append(File)

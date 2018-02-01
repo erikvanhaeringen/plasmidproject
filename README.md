@@ -12,23 +12,24 @@ In the main folder, the user can find this README file, containing information a
 
 ### Prerequisites
 This pipeline was developed with Ubuntu v16.04.3. Therefore, it is recommended to run this script in the same version of Ubuntu in which it was developed.
-It also requires Python (https://www.python.org/, min v2.7.14) and R (https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](#List-of-Modules)
+It also requires Python (https://www.python.org/, min v2.7.14) and R (https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](.#List-of-modules)
 
 
 
 ## Running the tests
 * Clone repository from github
-'''
+```shell
 git clone git://github.com/erikvanhaeringen/plasmidproject.git
-'''
+```
 * Go to the cloned folder
-'''
+```shell
 cd 'path to repository location'
-'''
+```
+* Place your sample sequences in plasmidproject/setup/data/samples/ in (.fa) format
 * Run the script
-'''
+```shell
 python Master.py
-'''
+```
 
 
 ### Step 1: Setup
@@ -61,7 +62,7 @@ Data will be inserted in R and processed further for development of graphs (ggpl
 * /statistics/scripts/summarize.r
 
 
-## List-of-modules
+## List of modules
 Used in Python
 * sys
 * urllib

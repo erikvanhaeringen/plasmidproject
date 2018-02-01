@@ -4,13 +4,18 @@
 """
 STEP 3: STATISTICS
 ------------------
-tranform dataset
-export to r
-do statistics
-return output
+This step will perform the analysis of the file produced in the Alignment step.
+The resulting data set of step 2 will be transformed to a new data set 
+containing the number of ARG matches to a sample per plasmid type of a sample. 
+Note: samples with no plasmid type matches are designated as "No type". 
+The plasmid type names and ARG type names are reduced, congregating subtypes to 
+their relative base type. Then the new dataset is passed along to a R script, 
+performing a summarization of the data, producing a table with the ARG type 
+count per plasmid type, which saved to a .csv file.
 
 External dependables:
-This script requires R to be installed as well as the packages 'dplyr' and 'data.table', also listed in /statistics/scripts/summarize.r
+This script requires R to be installed as well as the packages 'dplyr' and 
+'data.table', also listed in /statistics/scripts/summarize.r
 """
 import re
 import pandas as pd

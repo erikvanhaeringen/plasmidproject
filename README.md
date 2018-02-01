@@ -5,10 +5,11 @@ The main goal of this work was to develop a working pipeline, in Python, that wo
 
 ### Developed by
 Erik van Haeringen and Gonçalo Macedo
+
 January 31st 2018
 
 ## Getting Started
-In the main folder, the user can find this README file, containing information about the general purpose, requirement and options of this program. It also contains a **master.py** script which controls the three steps of this program: data setup, sequence alignment and statistical analysis. These steps have each their own subfolder, containing a **master.py** script that controls the operations and possible subscripts. For a detailed explanation of the process of each step please see the comments provided in these scripts.
+In the main folder, the user can find this README file, containing information about the general purpose, requirements and options of this program. It also contains a **master.py** script which controls the three steps of this program: data setup, sequence alignment and statistical analysis. These steps have each their own subfolder, containing a **master.py** script that controls the operations and possible subscripts. For a detailed explanation of the process of each step please see the comments provided in these scripts.
 
 ### Prerequisites
 This pipeline was developed with Ubuntu v16.04.3. Therefore, it is recommended to run this script in the same version of Ubuntu in which it was developed.
@@ -45,12 +46,9 @@ This step will perform the match of the sequences.
 As input, it will take the files produced in "Step 1", and it will generate a tab delimited text file as output
 This file will contain the plasmid types in the first column, and the resistance genes in the rest of columns. The values are the number of matches found for each plasmid type.
 
-Note: plasmids with no matches on type are designated as "No type"
-
-
 ### Step 3: Statistics
 This step will perform the analysis of the file produced in the Alignment step.
-Data will be inserted in R and processed further for development of graphs (ggplot2).
+Data will be transformed to a new data set containing the number of ARG matches to a sample per plasmid type of a sample. Note: samples with no plasmid type matches are designated as "No type". The plasmid type names and ARG type names are reduced, congregating subtypes to their relative base type. Then the new dataset is passed along to a R script, performing a summarization of the data, producing a table with the ARG type count per plasmid type, which saved to a .csv file.
 
 
 ## List of scripts

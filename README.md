@@ -14,7 +14,7 @@ In the main folder, the user can find this README file, containing information a
 
 ### Prerequisites
 This pipeline was developed with Ubuntu v16.04.3. Therefore, it is recommended to run this script in the same version of Ubuntu in which it was developed.
-It also requires Python ([picard]https://www.python.org/, min v2.7.14) and R ([picard]https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](#List-of-Modules)
+It also requires Python ([picard]https://www.python.org/, min v2.7.14) and R ([picard]https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](#List of Modules)
 
 
 
@@ -55,13 +55,27 @@ Data will be inserted in R and processed further for development of graphs (ggpl
 
 
 ## List of scripts
-1. 
-2. 
-
-...
+* /master.py
+* /setup/master.py
+* /alignment/master.py
+* /alignment/matchSequences.py
+* /statistics/master.py
+* /statistics/scripts/summarize.r
 
 
 ## List of modules
-* 
-* 
-* 
+Used in Python
+* sys
+* urllib
+* os
+* zipfile
+* re
+* pandas
+* multiprocessing
+* functools
+* subprocess
+* numpy
+
+Used in R
+* dplyr
+* data.table

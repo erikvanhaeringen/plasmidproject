@@ -8,10 +8,15 @@
 by Erik van Haeringen and Goncalo Macedo
 31th Jan 2018
 
+This script controls the execution of the different steps (setup, alignment and 
+statistics). For further information about the program see 'readme.md'. For the
+details of the individuals steps, see the comments in the 'master.py' scripts
+of each step in their respective subfolder.
+
 [OPTIONS]
--o <FILE_NAME>      Generates a tab delimited text file of the output to /alignment/results/ 
-                    with a name supplied by the user, or as 'Output_DataSet.txt' by default
-                    
+-o <FILE_NAME>      Generates a tab delimited text file of the output to 
+                    '/alignment/results/' with a name supplied by the user, or 
+                    as 'Output_DataSet.txt' by default.      
 """
 
 import setup.master as setup

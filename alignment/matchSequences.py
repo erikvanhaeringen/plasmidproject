@@ -4,7 +4,9 @@
 """
 MATCHING FUNCTION
 -----------------
-
+Checks if one sequence string is present (as a whole) in another sequence string
+and returns the result as a list containing sample id, sample sequence and a row 
+of binomial values.
 """
 
 def worker(PlasmidDf, ArgDf, SampleID, SampleSeq, SampleNumber):

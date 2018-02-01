@@ -4,8 +4,18 @@
 """
 STEP 2: ALIGNMENT
 -----------------
-
+This step will perform the match of the sequences.
+As input, it will take the files produced in "Step 1", and it will generate a
+tab delimited text file as output.
+This file will contain the sample id and sample sequence in the first 2 columns,
+than the plasmid types in the number of columns equal to the number of extracted 
+plasmid types, and finally the resistance genes in the rest of columns, again as 
+many as the number of resistance genes found.
+This step makes use of pooled multiprocessing for the function that matches the 
+samples to the plasmid and ARG types, and runs as many parallel processes as 
+there are cores in the system. 
 """
+
 from __future__ import division
 import sys   
 import multiprocessing

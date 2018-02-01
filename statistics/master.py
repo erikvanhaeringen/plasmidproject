@@ -17,6 +17,7 @@ External dependables:
 This script requires R to be installed as well as the packages 'dplyr' and 
 'data.table', also listed in /statistics/scripts/summarize.r
 """
+
 import re
 import pandas as pd
 import subprocess

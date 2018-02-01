@@ -2,9 +2,16 @@
 
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+----------------------------------------
+       PLASMID RESISTANCE MATCHER
+----------------------------------------
+by Erik van Haeringen and Goncalo Macedo
+31th Jan 2018
 
-This is a temporary script file.
+[OPTIONS]
+-o <FILE_NAME>      Generates a tab delimited text file of the output to /alignment/results/ 
+                    with a name supplied by the user, or as 'Output_DataSet.txt' by default
+                    
 """
 
 import setup.master as setup
@@ -13,18 +20,25 @@ import statistics.master as statistics
 import sys
 
 def main(argv):
-    for arg in sys.argv:
-        print "argv:",str(arg),"\n"
+    print "----------------------------------------\n       PLASMID RESISTANCE MATCHER\n----------------------------------------\nby Erik van Haeringen and Goncalo Macedo\n31th Jan 2018"
+    UserOutputFile = None
+    for arg in range(len(sys.argv)):
+        #checks of option -o is added as an argument
+        if sys.argv[arg] == "-o":
+            #checks if another argument is given after that and saves this as the outputPath
+            if sys.argv[arg+1]:
+                UserOutputFile=sys.argv[arg+1] 
+            else:
+                UserOutputFile="Output_DataSet.txt"
     
     #STEP 1: Setup
-    SampleData, SampleFileNames, SampleCount, PlasmidData, ArgData = setup.main("setup/")
+    SampleDf,SampleFileNames,SampleCount,PlasmidDf,PlasmidCount,ArgDf,ArgCount = setup.main("setup/")
     
     #STEP 2: Allignment
-    DataSet = alignment.main(SampleData, SampleFileNames, SampleCount, PlasmidData, ArgData, "alignment/")
+    ResultDf = alignment.main(SampleDf, SampleFileNames, SampleCount, PlasmidDf, ArgDf, UserOutputFile, "alignment/")
     
     #STEP 3: Statistics
-    result = statistics.main(DataSet)
-    print result
-
+    SubDataSet = statistics.main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,"statistics/")
+    
 if __name__ == "__main__":
     main(sys.argv)

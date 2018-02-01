@@ -2,18 +2,22 @@
 
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
-
-This is a temporary script file.
+STEP 1: SETUP
+-------------
+In this script the data is setup for further analysis.
+The data consists of plasmid sample sequences (sample), plasmid type sequences (plasmid) and resistance gene sequences (arg).
+Plasmid type and resistance gene sequences are first downloaded from the repository and extracted.
+Then sample, plasmid and arg headers and sequences are extracted from the files, reformatted with regular expressions and organised in a dataset.
 """
 
 import urllib
 import os
 from zipfile import ZipFile
-import numpy as np
 import re
+import pandas as pd
 
-#used this function by ekhumoro found on 'https://stackoverflow.com/questions/8689938/extract-files-from-zip-without-keep-the-top-level-folder-with-python-zipfile'
+#This is a function by ekhumoro retrieved from 'https://stackoverflow.com/questions/8689938/extract-files-from-zip-without-keep-the-top-level-folder-with-python-zipfile'
+#The function takes a zipfile object, extracts the names of files and removes the first level folder structure to also extract the files in subdirectories to the specified output directory
 def get_members(zip):
     parts = []
     # get all the path prefixes
@@ -38,97 +42,102 @@ def get_members(zip):
             zipinfo.filename = name[offset:]
             yield zipinfo
 
+#Function that opens a file containing sequences and performs a regexp search to extract all identifiers(header) and sequences 
 def parseSequences(Regexp, Filename, RemoveLineEnding):
     print "\treformatting ", Filename
-    Data = np.fromregex(Filename, Regexp,[('id', object), ('sequence', object)])
+    File = open(Filename,"r")
+    Data=[[],[]]
+    for i in re.findall(Regexp,File.read()):
+        Data[0].append(i[0])
+        Data[1].append(i[1])
     if RemoveLineEnding == True:
         for i in range(len(Data)):
-            #Data[i][1].replace('\n', '').replace('\r', '') 
-            Data[i][1] = (re.sub(r"[\r\n\s]+",r"",Data[i][1]))
+            Data[i]=list(Data[i])
+            Data[i][1] = re.sub(r"[\r\n\s]+",r"",Data[i][1])
             Data[i][1] = Data[i][1].upper()
-    return Data   
+    return Data
     
 
 def main(RelativePath):
+    #Defines a relative path addition for use with the central coordinating master script
     PathAddition=""
     if RelativePath:
         PathAddition = RelativePath
+     
+     
+    #*************** RETRIEVE AND EXTRACT DATA *************** 
     #DOWNLOAD PLASMID SEQUENCE FILE
     print "\n[ Updating plasmid data ]"
-    PlasmidFinder = PathAddition+"PlasmidFinder.zip"
+    PlasmidFinder = PathAddition+"PlasmidFinder.zip" #destination name and path for the zip file
     print "\tdownloading plasmid data from", PlasmidFinder
-    urlPlasmid = 'https://bitbucket.org/genomicepidemiology/plasmidfinder_db/get/1689b7aaee28.zip'
-    urllib.urlretrieve(urlPlasmid, PlasmidFinder)
+    urlPlasmid = 'https://bitbucket.org/genomicepidemiology/plasmidfinder_db/get/1689b7aaee28.zip' #url to download
+    urllib.urlretrieve(urlPlasmid, PlasmidFinder) #download from defined url to destination
     
-    #extract contens of the first folder to results folder
-    archive = ZipFile(PlasmidFinder)
+    #EXTRACT CONTENTS OF ZIP FOLDER TO RESULTS FOLDER
+    archive = ZipFile(PlasmidFinder) #read the archive to a zifile object
     print "\textracting", PlasmidFinder
-    archive.extractall(PathAddition+"results/plasmid", get_members(archive)) 
+    archive.extractall(PathAddition+"results/plasmid", get_members(archive)) #send zipfile object to get_members function and extract the resulting filelist in results folder 
     print "\tremoving", PlasmidFinder
-    os.remove(PlasmidFinder)
+    os.remove(PlasmidFinder) #remove the zip file
     
     #DOWNLOAD ARG SEQUENCE FILE
     print "\n[ Updating arg data ]"
-    ArgFinder = PathAddition+"ArgFinder.zip"
+    ArgFinder = PathAddition+"ArgFinder.zip" #destination name and path for the zip file
     print "\tdownloading arg data from", ArgFinder
-    urlArg = 'https://bitbucket.org/genomicepidemiology/resfinder_db/get/64794c304abc.zip'
-    urllib.urlretrieve(urlArg, ArgFinder)
+    urlArg = 'https://bitbucket.org/genomicepidemiology/resfinder_db/get/64794c304abc.zip' #url to download
+    urllib.urlretrieve(urlArg, ArgFinder) #download from defined url to destination
     
-    #extract contens of the first folder to results folder            
-    archive = ZipFile(ArgFinder)
+    #EXTRACT CONTENTS OF ZIP FOLDER TO RESULTS FOLDER      
+    archive = ZipFile(ArgFinder) #read the archive to a zifile object
     print "\textracting", ArgFinder
-    archive.extractall(PathAddition+"results/arg", get_members(archive)) 
+    archive.extractall(PathAddition+"results/arg", get_members(archive)) #send zipfile object to get_members function and extract the resulting filelist in results folder  
     print "\tremoving", ArgFinder
-    os.remove(ArgFinder)
+    os.remove(ArgFinder) #remove the zip file
     
-    
-    
-    
-    #REFORMAT DATA AND ADD TO DATASET
+
+    #*************** REFORMAT DATA AND ADD TO DATASET ***************
     print "\n[ Importing data ]"
-    #*************** IMPORT SAMPLE SEQUENCES ***************
-    print "\timporting samples"
-    Temp=[]
+    
+    #IMPORT SAMPLE SEQUENCES
+    print "Importing samples"
+    Temp=[]  
     SampleFileNames=[]
     SamplePath=PathAddition+"data/test/"
     for File in os.listdir(SamplePath):
         if File.endswith(".fa"):
             SampleFileNames.append(File)
             Regexp = r">(.+?)[\r\n]+([atgcATGC\n\r]+)"
-            Temp.append(parseSequences(Regexp, SamplePath+File,True))   
-    SampleData = np.array(Temp)
+            Temp.append(parseSequences(Regexp, SamplePath+File,True))           
+    SampleDf = pd.DataFrame(Temp)
     
-    #*************** IMPORT ARG SEQUENCES ***************
-    print "\timporting args"
+    #IMPORT ARG SEQUENCES
+    print "Importing args"
     Temp=[]
     ArgPath=PathAddition+"results/arg/"
     for File in os.listdir(ArgPath):
         if File.endswith(".fsa"):
             Regexp = r">(.+?)[\r\n]+([atgcATGC\n\r]+)"
             Temp.append(parseSequences(Regexp, ArgPath+File,True))   
-    ArgData = np.array(Temp)
+    ArgDf = pd.DataFrame(Temp) 
     
-    #*************** IMPORT PLASMID SEQUENCES ***************
-    print "\timporting plasmids.."
+    #IMPORT PLASMID SEQUENCES
+    print "Importing plasmids.."
     Temp=[]
     PlasmidPath=PathAddition+"results/plasmid/"
     for File in os.listdir(PlasmidPath):
         if File.endswith(".fsa"):
             Regexp = r">(.+?)[\r\n]+([atgcATGC\n\r]+)"
             Temp.append(parseSequences(Regexp, PlasmidPath+File,True))   
-    PlasmidData = np.array(Temp)
+    PlasmidDf = pd.DataFrame(Temp) 
     
-    #*************** DATASET CONSTRUCTION ***************
     #Count available sequences
-    PlasmidCount = 0
-    for File in PlasmidData:
-        PlasmidCount = PlasmidCount + len(File)
-    ArgCount = 0
-    for File in ArgData:
-        ArgCount = ArgCount + len(File)
-    SampleCount = 0
-    for File in SampleData:
-        SampleCount = SampleCount + len(File)
+    SampleCount=sum(len(SampleDf[0][File]) for File in range(len(SampleDf[0])))
+    PlasmidCount=sum(len(PlasmidDf[0][File]) for File in range(len(PlasmidDf[0])))        
+    ArgCount=sum(len(ArgDf[0][File]) for File in range(len(ArgDf[0])))        
     print "\n| IMPORTED SEQUENCES |\nSamples:%i\nPlasmids:%i\nArg:%i" % (SampleCount, PlasmidCount, ArgCount)
     
-    return SampleData, SampleFileNames, SampleCount, PlasmidData, ArgData
+    return SampleDf,SampleFileNames,SampleCount,PlasmidDf,PlasmidCount,ArgDf,ArgCount
+
+
+if __name__ == "__main__":
+    main("")

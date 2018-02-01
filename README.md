@@ -44,11 +44,13 @@ The function takes a zipfile object, extracts the names of files and removes the
 ### Step 2: Alignment
 This step will perform the match of the sequences.
 As input, it will take the files produced in "Step 1", and it will generate a tab delimited text file as output
-This file will contain the plasmid types in the first column, and the resistance genes in the rest of columns. The values are the number of matches found for each plasmid type.
+This file will contain the sample id and sample sequence in the first 2 columns, than the plasmid types in the number of columns equal to the number of extracted plasmid types, and finally the resistance genes in the rest of columns, again as many as the number of resistance genes found.
+This step makes use of pooled multiprocessing for the function that matches the samples to the plasmid and ARG types, and runs as many parallel processes as there are cores in the system. 
 
 ### Step 3: Statistics
 This step will perform the analysis of the file produced in the Alignment step.
-Data will be transformed to a new data set containing the number of ARG matches to a sample per plasmid type of a sample. Note: samples with no plasmid type matches are designated as "No type". The plasmid type names and ARG type names are reduced, congregating subtypes to their relative base type. Then the new dataset is passed along to a R script, performing a summarization of the data, producing a table with the ARG type count per plasmid type, which saved to a .csv file.
+Data will be transformed to a new data set containing the number of ARG matches to a sample per plasmid type of a sample. Note: samples with no plasmid type matches are designated as "No type". 
+The plasmid type names and ARG type names are reduced, congregating subtypes to their relative base type. Then the new dataset is passed along to a R script, performing a summarization of the data, producing a table with the ARG type count per plasmid type, which saved to a .csv file.
 
 
 ## List of scripts

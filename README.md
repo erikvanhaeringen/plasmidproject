@@ -14,7 +14,7 @@ In the main folder, the user can find this README file, containing information a
 
 ### Prerequisites
 This pipeline was developed with Ubuntu v16.04.3. Therefore, it is recommended to run this script in the same version of Ubuntu in which it was developed.
-It also requires Python ([picard]https://www.python.org/, min v2.7.14) and R ([picard]https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](##List of Modules)
+It also requires Python ([picard]https://www.python.org/, min v2.7.14) and R ([picard]https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](## List of Modules)
 
 
 
@@ -43,19 +43,19 @@ This file will contain the plasmid types in the first column, and the resistance
 Note: plasmids with no matches on type are designated as "No type"
 
 
-###Step 3: Statistics
+### Step 3: Statistics
 This step will perform the analysis of the file produced in the Alignment step.
 Data will be inserted in R and processed further for development of graphs (ggplot2).
 
 
-##List of scripts
+## List of scripts
 1. 
 2. 
 
 ...
 
 
-##List of modules
+## List of modules
 * 
 * 
 * 

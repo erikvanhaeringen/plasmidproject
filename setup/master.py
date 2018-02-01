@@ -5,9 +5,11 @@
 STEP 1: SETUP
 -------------
 In this script the data is setup for further analysis.
-The data consists of plasmid sample sequences (sample), plasmid type sequences (plasmid) and resistance gene sequences (arg).
-Plasmid type and resistance gene sequences are first downloaded from the repository and extracted.
-Then sample, plasmid and arg headers and sequences are extracted from the files, reformatted with regular expressions and organised in a dataset.
+The data consists of plasmid sample sequences (sample), plasmid type sequences 
+(plasmid) and resistance gene sequences (arg). Plasmid type and resistance gene 
+sequences are first downloaded from the repository and extracted. Then sample, 
+plasmid and arg headers and sequences are extracted from the files, reformatted 
+with regular expressions and organised in a dataset.
 """
 
 import urllib

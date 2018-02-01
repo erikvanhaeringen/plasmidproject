@@ -46,7 +46,6 @@ The data consists of plasmid sample sequences (sample), plasmid type sequences (
 Plasmid type and resistance gene sequences are first downloaded from the repository and extracted.
 Then sample, plasmid, and arg headers and sequences are extracted from the files, reformatted with regular expressions and organized in a dataset.
 
-The function takes a zipfile object, extracts the names of files and removes the first level folder structure to also extract the files in subdirectories to the specified output directory.
 
 ### Step 2: Alignment
 This step will perform the match of the sequences.

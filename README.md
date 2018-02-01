@@ -3,10 +3,8 @@
 Project developed under the scope of the masters course "Practical Bioinformatics for Biologists", edition of 2018.
 The main goal of this work was to develop a working pipeline, in Python, that would simplify the life of researchers analyzing a data set of plasmid sequences.
 
-## Developed by
-Erik van Haeringen
-Gonçalo Macedo
-
+### Developed by
+Erik van Haeringen and Gonçalo Macedo
 January 31st 2018
 
 ## Getting Started
@@ -14,7 +12,7 @@ In the main folder, the user can find this README file, containing information a
 
 ### Prerequisites
 This pipeline was developed with Ubuntu v16.04.3. Therefore, it is recommended to run this script in the same version of Ubuntu in which it was developed.
-It also requires Python ([picard]https://www.python.org/, min v2.7.14) and R ([picard]https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](#List of Modules)
+It also requires Python (https://www.python.org/, min v2.7.14) and R (https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](#List-of-Modules)
 
 
 
@@ -63,7 +61,7 @@ Data will be inserted in R and processed further for development of graphs (ggpl
 * /statistics/scripts/summarize.r
 
 
-## List of modules
+## List-of-modules
 Used in Python
 * sys
 * urllib

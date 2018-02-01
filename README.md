@@ -33,7 +33,11 @@ python Master.py
 ```
 
 *Options*
-* -o <FILE_NAME>      Generates a tab delimited text file of the output to            '/alignment/results/' with a name supplied by the user, or as 'Output_DataSet.txt' by default.   
+* Optional output file of complete dataset after alignment
+Generates a tab delimited text file of the output to '/alignment/results/' with a name supplied by the user, or as 'Output_DataSet.txt' by default.
+```shell
+-o <FILE_NAME>
+```
 
 
 ### Step 1: Setup

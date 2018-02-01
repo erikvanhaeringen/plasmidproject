@@ -14,7 +14,7 @@ In the main folder, the user can find this README file, containing information a
 
 ### Prerequisites
 This pipeline was developed with Ubuntu v16.04.3. Therefore, it is recommended to run this script in the same version of Ubuntu in which it was developed.
-It also requires Python ([picard]https://www.python.org/, min v2.7.14) and R ([picard]https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](## List of Modules)
+It also requires Python ([picard]https://www.python.org/, min v2.7.14) and R ([picard]https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](## List-of-Modules)
 
 
 
@@ -23,8 +23,14 @@ It also requires Python ([picard]https://www.python.org/, min v2.7.14) and R ([p
 '''
 git clone git://github.com/erikvanhaeringen/plasmidproject.git
 '''
-* Copy Master.py script to location which is recognizable for your ".bashrc" file.
+* Go to the cloned folder
+'''
+cd <path to repository location>
+'''
 * Run the script
+'''
+python Master.py [optional]-o <file location>
+'''
 
 
 ### Step 1: Setup

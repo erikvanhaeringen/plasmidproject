@@ -32,6 +32,9 @@ cd 'path to repository location'
 python Master.py
 ```
 
+[OPTIONS]
+*-o <FILE_NAME>      Generates a tab delimited text file of the output to            '/alignment/results/' with a name supplied by the user, or as 'Output_DataSet.txt' by default.   
+
 
 ### Step 1: Setup
 This step is the setup for further analysis.

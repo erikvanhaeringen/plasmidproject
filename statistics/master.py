@@ -24,7 +24,7 @@ import subprocess
 import numpy as np
 
 def main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,RelativePath):
-    #if called from the main master script add the relative path to all used file paths
+    #Defines a relative path addition for use with the central coordinating master script
     PathAddition=""
     if RelativePath:
         PathAddition = RelativePath

@@ -25,43 +25,34 @@ import pandas as pd
 import matchSequences #the script that matches if a plasmids type and arg type are present in a sample sequence
 
 def main(SampleDf, SampleFileNames, SampleCount, PlasmidDf, ArgDf, UserOutputFile, RelativePath):
+    #Defines a relative path addition for use with the central coordinating master script
     PathAddition=""
     if RelativePath:
         PathAddition = RelativePath
     
-    TempDataSet = [] #create new dataSet to hold the results of the sequence matching
+    TempDataSet = [] #create new temporary dataSet to hold the results of the sequence matching
     print "\n[ MATCHING SEQUENCES ]"
     print "using %i cores for paralel processing\n" % multiprocessing.cpu_count()
 
-#    print "seq",SampleDf[1][0][0]
-#    print "name",SampleDf[0][0][0]
-#    print "tname",type(SampleDf[0][0][0])
-#    print "file",SampleDf[0][0][0]
-#    print "tfile",type(SampleDf[0][0][0])
-#    print "sample",SampleDf[0][0][1]
-#    print "tsample",type(SampleDf[0][0][1])
-#    print "lsample",len(SampleDf[1][0])
-#    print dsjkh
-    #if __name__ == '__main__':
-    for SampleFile in range(len(SampleDf)):
-        print "Sample file:", SampleFileNames[SampleFile] 
+    for SampleFile in range(len(SampleDf)): #for each sample file do:
+        print "Sample file:", SampleFileNames[SampleFile] #print the current sample file to screen
         p = Pool(multiprocessing.cpu_count())  #create a pool with the amount of processes based on the number of cpus 
-        func = partial(matchSequences.worker,PlasmidDf,ArgDf,SampleDf[0][SampleFile],SampleDf[1][SampleFile])
-        ProgressCounter = 0.0
-        for i in p.imap_unordered(func, range(len(SampleDf[0][SampleFile]))):
-            ProgressCounter += 1
-            sys.stderr.write('\rprogress: %i%%' % ((ProgressCounter/SampleCount)*100))            
-            TempDataSet.append(i)
+        func = partial(matchSequences.worker,PlasmidDf,ArgDf,SampleDf[0][SampleFile],SampleDf[1][SampleFile]) #create a partial function call to include more than the iterated variable in the function call
+        ProgressCounter = 0.0 #create a progress counter set to 0
+        for i in p.imap_unordered(func, range(len(SampleDf[0][SampleFile]))): #for every sample in sample file create a separate task and add to pool
+            ProgressCounter += 1 #increase the progress counter
+            sys.stderr.write('\rprogress: %i%%' % ((ProgressCounter/SampleCount)*100)) #show progress in percentage processed of current sample file 
+            TempDataSet.append(i) #add the output data from the match to the temporary dataset
         p.close()
-        p.join()
+        p.join() #wait for all tasks in pool to complete
         
     #To generate a tab delimited text file of the output, add argument -o <FILE_NAME> when calling the main master script
     if UserOutputFile != None:
         OutputFile = PathAddition+"results/"+UserOutputFile   
         with open(OutputFile, 'w') as file:
-            file.writelines('\t'.join(i) + '\n' for i in TempDataSet)
+            file.writelines('\t'.join(i) + '\n' for i in TempDataSet) #join all the list elements together with tabs in between and a line break on the end of every line (row)
         print "\nExported dataset to", OutputFile
 
-    ResultDf = pd.DataFrame(TempDataSet)
+    ResultDf = pd.DataFrame(TempDataSet) #store temporary data set with matching data to a pandas dataframe
 
     return ResultDf       

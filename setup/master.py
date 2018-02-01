@@ -44,18 +44,18 @@ def get_members(zip):
             zipinfo.filename = name[offset:]
             yield zipinfo
 
-#Function that opens a file containing sequences and performs a regexp search to extract all identifiers(header) and sequences 
+#Function that opens a file containing sequences and performs a regexp search to extract all identifiers (header) and sequences 
 def parseSequences(Regexp, Filename, RemoveLineEnding):
     print "\treformatting ", Filename
-    File = open(Filename,"r")
-    Data=[[],[]]
-    for i in re.findall(Regexp,File.read()):
-        Data[0].append(i[0])
-        Data[1].append(i[1])
-    if RemoveLineEnding == True:
-        for i in range(len(Data[1])):
-            Data[1][i] = re.sub(r"[\r\n\s]+",r"",Data[1][i])
-            Data[1][i] = Data[1][i].upper()
+    File = open(Filename,"r") #open file by provided path
+    Data=[[],[]] #make empty list to hold extracted data
+    for i in re.findall(Regexp,File.read()): #read file and apply a search with the provided regular expression
+        Data[0].append(i[0]) #store identifier string
+        Data[1].append(i[1]) #store sequence string
+    if RemoveLineEnding == True: #if option for line-ending removal is selected
+        for i in range(len(Data[1])): #do for all sequence strings..
+            Data[1][i] = re.sub(r"[\r\n\s]+",r"",Data[1][i]) #replace all line breaks and white space characters with nothing using regular expressions
+            Data[1][i] = Data[1][i].upper() #convert all letters to upper case
     return Data
     
 
@@ -64,7 +64,6 @@ def main(RelativePath):
     PathAddition=""
     if RelativePath:
         PathAddition = RelativePath
-     
      
     #*************** RETRIEVE AND EXTRACT DATA *************** 
     #DOWNLOAD PLASMID SEQUENCE FILE
@@ -101,37 +100,37 @@ def main(RelativePath):
     
     #IMPORT SAMPLE SEQUENCES
     print "Importing samples"
-    Temp=[]  
-    SampleFileNames=[]
-    SamplePath=PathAddition+"data/samples/"
-    for File in os.listdir(SamplePath):
-        if File.endswith(".fa"):
-            SampleFileNames.append(File)
-            Regexp = r">(.+?)[\r\n]+([atgcATGC\n\r]+)"
-            Temp.append(parseSequences(Regexp, SamplePath+File,True))           
-    SampleDf = pd.DataFrame(Temp)
+    Temp=[] #temporary list to store parsed sequence data 
+    SampleFileNames=[] #empty list to store all procesed sample files
+    SamplePath=PathAddition+"data/samples/" #path where the samples are imported from
+    for File in os.listdir(SamplePath): #for each file in destination..
+        if File.endswith(".fa"): #providing it is a '.fa' file do:
+            SampleFileNames.append(File) #add sample file name to file list
+            Regexp = r">(.+?)[\r\n]+([atgcATGC\n\r]+)" #defines the regular expression used to extract the data (should contain 2 captures: ID & Sequence)
+            Temp.append(parseSequences(Regexp, SamplePath+File,True)) #parse sequence data with regular expression and store result in the tempory list           
+    SampleDf = pd.DataFrame(Temp) #store the tempory list in a pandas datasframe
     
     #IMPORT ARG SEQUENCES
     print "Importing args"
-    Temp=[]
-    ArgPath=PathAddition+"results/arg/"
-    for File in os.listdir(ArgPath):
-        if File.endswith(".fsa"):
-            Regexp = r">(.+?)[\r\n]+([atgcATGC\n\r]+)"
-            Temp.append(parseSequences(Regexp, ArgPath+File,True))   
-    ArgDf = pd.DataFrame(Temp) 
+    Temp=[] #temporary list to store parsed sequence data 
+    ArgPath=PathAddition+"results/arg/" #path where the plasmid types are imported from
+    for File in os.listdir(ArgPath): #for each file in destination..
+        if File.endswith(".fsa"): #providing it is a '.fsa' file do:
+            Regexp = r">(.+?)[\r\n]+([atgcATGC\n\r]+)" #defines the regular expression used to extract the data (should contain 2 captures: ID & Sequence)
+            Temp.append(parseSequences(Regexp, ArgPath+File,True)) #parse sequence data with regular expression and store result in the tempory list              
+    ArgDf = pd.DataFrame(Temp) #store the tempory list in a pandas datasframe 
     
     #IMPORT PLASMID SEQUENCES
     print "Importing plasmids.."
-    Temp=[]
-    PlasmidPath=PathAddition+"results/plasmid/"
-    for File in os.listdir(PlasmidPath):
-        if File.endswith(".fsa"):
-            Regexp = r">(.+?)[\r\n]+([atgcATGC\n\r]+)"
-            Temp.append(parseSequences(Regexp, PlasmidPath+File,True))   
-    PlasmidDf = pd.DataFrame(Temp) 
+    Temp=[] #temporary list to store parsed sequence data 
+    PlasmidPath=PathAddition+"results/plasmid/" #path where the arg types are imported from
+    for File in os.listdir(PlasmidPath): #for each file in destination..
+        if File.endswith(".fsa"): #providing it is a '.fsa' file do:
+            Regexp = r">(.+?)[\r\n]+([atgcATGC\n\r]+)" #defines the regular expression used to extract the data (should contain 2 captures: ID & Sequence)
+            Temp.append(parseSequences(Regexp, PlasmidPath+File,True)) #parse sequence data with regular expression and store result in the tempory list   
+    PlasmidDf = pd.DataFrame(Temp) #store the tempory list in a pandas datasframe
     
-    #Count available sequences
+    #Count available sequences and print to screen
     SampleCount=sum(len(SampleDf[0][File]) for File in range(len(SampleDf[0])))
     PlasmidCount=sum(len(PlasmidDf[0][File]) for File in range(len(PlasmidDf[0])))        
     ArgCount=sum(len(ArgDf[0][File]) for File in range(len(ArgDf[0])))        

@@ -13,7 +13,7 @@ In the main folder, the user can find this README file, containing information a
 
 ### Prerequisites
 This pipeline was developed with Ubuntu v16.04.3. Therefore, it is recommended to run this script in the same version of Ubuntu in which it was developed.
-It also requires Python 2 (https://www.python.org/, min v2.7.14) and R (https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](#List-of-modules)
+It also requires Python 2 (https://www.python.org/, min v2.7.14) and R (https://www.r-project.org/) to be installed. For the required list of modules and packages see [List of modules](#list-of-modules)
 
 
 

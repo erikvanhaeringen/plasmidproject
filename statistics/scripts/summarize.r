@@ -9,33 +9,13 @@
 #  chunk_output_type: console
 #---
 
-
-
-# read data, read libraries, clean data to use
-
-#```{r fig.width=7, fig.height=6}
-
-# Define working directory
-#setwd("C:/Users/gonca/surfdrive/PhD/R/PlasmidProject")
-
-
-# Check/confirm directoty
-#getwd()
+setwd("~/Documents/plasmidproject/statistics/scripts/")
 
 # Load needed libraries needed (package)
-#install.packages("ggplot2")
+#install.packages("data.table")
 #install.packages("dplyr")
-
-#library(ggplot2) # this is the main library for clean and easy plotting. 
 library(dplyr)
 library(data.table)
-
-#library(doBy)
-#library(reshape2)
-#library(plyr)
-#library(tidyr)
-#library(vegan)
-
 
 # Load dataset (make sure to change all spaces, empty cells and strange characters)
 alldata<-read.table("../results/SubDataSet.txt", sep="\t", header=TRUE,  na.strings=c("", "NA"))
@@ -92,13 +72,12 @@ alldata_treated$TRM <- apply(alldata_treated[,c(2213:2265)], 1, sum) #trimethpri
 
 # New table with only sums of ARG, by antibiotic class
 alldata_final <- alldata_treated[,c(1,2266:2279)]
-str(alldata_final)
-
-# remove rows that are all zeros
-#alldata_final <- alldata_final[!!rowSums(abs(alldata_final[-c(1:2)])),]
 #str(alldata_final)
 
+# remove rows that are all zeros
+alldata_final <- alldata_final[!!rowSums(abs(alldata_final[-c(1:2)])),]
+#str(alldata_final)
 
-alldata_final
-
-
+print(alldata_final) #show output
+write.table(alldata_final, file = '../results/summaryTable.csv')
+return(alldata_final)

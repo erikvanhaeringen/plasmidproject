@@ -9,10 +9,13 @@ export to r
 do statistics
 return output
 
+External dependables:
+This script requires R to be installed as well as the packages 'dplyr' and 'data.table', also listed in /statistics/scripts/summarize.r
 """
 import re
 import pandas as pd
 import subprocess
+import numpy as np
 
 def main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,RelativePath):
     #if called from the main master script add the relative path to all used file paths
@@ -44,12 +47,7 @@ def main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,RelativePath):
             
     print "create new data set"
     #Create empty dataset with plasmid type as row index and arg type as column headers            
-    SubDataSet = pd.DataFrame(columns=(ArgIDs)) #sets column names
-    
-    #loop that fills the data set with 0's for the number of plasmid types (including no type) times the number of resistance gene types
-    for PlasmidNumber in range(PlasmidCount+1): #(+1 for notype row)
-        SubDataSet.loc[PlasmidNumber] = [0]*ArgCount
-    SubDataSet.index = PlasmidIDs #sets row names based on the shortened plasmid type names 
+    SubDataSet = pd.DataFrame(0, index=np.arange(PlasmidCount+1), columns=range(ArgCount))    
     
     print "transpose data to new data set"
     #fill the new data set with data from the output of the analysis step
@@ -58,17 +56,16 @@ def main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,RelativePath):
         #and per sample checks if any plasmid type was found
         #if not it adds the antibiotic types count to the 'no type' row
         if sum([int(i) for i in ResultDf.loc[Sample][2:(PlasmidCount + 2)]]) == 0: #no plasmid type identified in sample          
-            for ArgNumber in range(ArgCount):
-                if ResultDf.loc[Sample][2+PlasmidCount+ArgNumber]=="1": #uses string type as the output data set is all strings
-                    SubDataSet.loc[PlasmidIDs[PlasmidCount],ArgIDs[ArgNumber]]+=1 #add to new dataset
+            for Arg in range(ArgCount):
+                if ResultDf.loc[Sample][2+PlasmidCount+Arg]=="1": #uses string type as the output data set is all strings
+                    SubDataSet.loc[PlasmidCount][Arg]+=1 #add to new dataset
         #if so it adds the antibiotic types count to the row of the plasmid type(s) that were found
         else:
-            for Plasmid in len(ResultDf.loc[Sample][2:(PlasmidCount+2)]):
+            for Plasmid in range(PlasmidCount):
                 if ResultDf.loc[Sample][2+Plasmid] == "1":
-                    for ArgNumber in range(ArgCount):
-                        if ResultDf.loc[Sample][2+PlasmidCount+ArgNumber]=="1": #uses string type as the output data set is all strings
-                            SubDataSet.loc[PlasmidIDs[Plasmid],ArgIDs[ArgNumber]]+=1 #add to new dataset
-
+                    for Arg in range(ArgCount):
+                        if ResultDf.loc[Sample][2+PlasmidCount+Arg]=="1": #uses string type as the output data set is all strings
+                            SubDataSet.loc[Plasmid][Arg]+=1 #add to new dataset
 
     #export the subdataset for r to a tab delimited file with column and row names included
     outputFile = PathAddition+"results/SubDataSet.txt"
@@ -81,17 +78,19 @@ def main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,RelativePath):
             for Arg in range(ArgCount):
                 #determin if it is the first item in the row, if so also add the row name
                 if TempStr=="": 
-                    TempStr=PlasmidIDs[Plasmid] + "\t" + str(SubDataSet.loc[PlasmidIDs[Plasmid],ArgIDs[Arg]]) #add row name (plasmid type) and item to temp string preceded by a tab
+                    TempStr=PlasmidIDs[Plasmid] + "\t" + str(SubDataSet.loc[Plasmid][Arg]) #add row name (plasmid type) and item to temp string preceded by a tab
                 else:
-                    TempStr = TempStr + "\t" + str(SubDataSet.loc[PlasmidIDs[Plasmid],ArgIDs[Arg]])
+                    TempStr = TempStr + "\t" + str(SubDataSet.loc[Plasmid][Arg])
             file.writelines(TempStr + "\n") #write the temporary string to the file plus a line break and continue to the next line (plasmid type)
     print "Exported transposed dataset for r to", outputFile #show user where the file is saved to
     
     print "\n[ STATISTICAL ANALYSIS WITH R SCRIPT ]"
     RScriptPath = PathAddition+"/scripts/summarize.r"
     print "Running", RScriptPath
-    subprocess.call (["/usr/bin/Rscript", "--vanilla", RScriptPath])
-    
-    
-    return SubDataSet
-    
+#    with subprocess.run(["/usr/bin/Rscript", "--vanilla", RScriptPath],stdout=subprocess.PIPE):
+#        for line in stdout.readlines():
+#            print line\
+    proc = subprocess.Popen(["/usr/bin/Rscript", "--vanilla", RScriptPath], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = proc.communicate()
+    print "Result table summarizing analysis is printed to /statistics/results/summaryTable.csv"
+

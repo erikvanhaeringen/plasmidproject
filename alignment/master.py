@@ -23,6 +23,15 @@ def main(SampleDf, SampleFileNames, SampleCount, PlasmidDf, ArgDf, UserOutputFil
     print "\n[ MATCHING SEQUENCES ]"
     print "using %i cores for paralel processing\n" % multiprocessing.cpu_count()
 
+#    print "seq",SampleDf[1][0][0]
+#    print "name",SampleDf[0][0][0]
+#    print "tname",type(SampleDf[0][0][0])
+#    print "file",SampleDf[0][0][0]
+#    print "tfile",type(SampleDf[0][0][0])
+#    print "sample",SampleDf[0][0][1]
+#    print "tsample",type(SampleDf[0][0][1])
+#    print "lsample",len(SampleDf[1][0])
+#    print dsjkh
     #if __name__ == '__main__':
     for SampleFile in range(len(SampleDf)):
         print "Sample file:", SampleFileNames[SampleFile] 

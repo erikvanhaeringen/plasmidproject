@@ -38,7 +38,7 @@ def main(argv):
     ResultDf = alignment.main(SampleDf, SampleFileNames, SampleCount, PlasmidDf, ArgDf, UserOutputFile, "alignment/")
     
     #STEP 3: Statistics
-    SubDataSet = statistics.main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,"statistics/")
+    statistics.main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,"statistics/")
     
 if __name__ == "__main__":
     main(sys.argv)

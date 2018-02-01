@@ -51,10 +51,9 @@ def parseSequences(Regexp, Filename, RemoveLineEnding):
         Data[0].append(i[0])
         Data[1].append(i[1])
     if RemoveLineEnding == True:
-        for i in range(len(Data)):
-            Data[i]=list(Data[i])
-            Data[i][1] = re.sub(r"[\r\n\s]+",r"",Data[i][1])
-            Data[i][1] = Data[i][1].upper()
+        for i in range(len(Data[1])):
+            Data[1][i] = re.sub(r"[\r\n\s]+",r"",Data[1][i])
+            Data[1][i] = Data[1][i].upper()
     return Data
     
 

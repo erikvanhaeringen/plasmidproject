@@ -2,9 +2,8 @@ install:
  - sudo pip install proselint
  - sudo apt-get install npm
  - sudo npm install -g markdown-link-check
- - sudo apt-get install pip
- - sudo pip install wheel
- - sudo pip install pandas
+ - pip install wheel
+ - pip install pandas
 
 
 script: 

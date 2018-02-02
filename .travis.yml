@@ -4,7 +4,7 @@ install:
  - sudo npm install -g markdown-link-check
  - pip install wheel
  - pip install pandas
-
+ - sudo apt-get install r-base
 
 script: 
  - proselint README.md

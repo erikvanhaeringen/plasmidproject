@@ -90,10 +90,10 @@ def main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,RelativePath):
     print "Exported transposed dataset for r to", outputFile #show user where the file is saved to
     
     print "\n[ STATISTICAL ANALYSIS WITH R SCRIPT ]"
-    RScriptPath = "/"+PathAddition+"scripts/summarize.r" #defines path of the r script
+    RScriptPath = PathAddition+"scripts/summarize.r" #defines path of the r script
     print "Running", RScriptPath
 
     #executes r script via the shell
-    subprocess.call(["/usr/bin/env Rscript", "--vanilla", RScriptPath])
+    subprocess.call(["/usr/bin/Rscript", "--vanilla", RScriptPath],shell=True)
     print "Result table summarizing analysis is printed to /statistics/results/summaryTable.csv"
 

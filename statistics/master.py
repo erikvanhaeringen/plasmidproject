@@ -90,7 +90,7 @@ def main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,RelativePath):
     print "Exported transposed dataset for r to", outputFile #show user where the file is saved to
     
     print "\n[ STATISTICAL ANALYSIS WITH R SCRIPT ]"
-    RScriptPath = PathAddition+"scripts/summarize.r" #defines path of the r script
+    RScriptPath = "/"+PathAddition+"scripts/summarize.r" #defines path of the r script
     print "Running", RScriptPath
 
     #executes r script via the shell

@@ -2,7 +2,18 @@ install:
  - sudo pip install proselint
  - sudo apt-get install npm
  - sudo npm install -g markdown-link-check
+ - pip install wheel
+ - pip install pandas
+
 
 script: 
  - proselint README.md
  - ./check_dead_links
+
+language: python
+python:
+    - "2.6"
+    - "2.7"
+    - "pypy"
+script:
+    - "python master.py"

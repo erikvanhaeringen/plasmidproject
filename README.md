@@ -8,6 +8,9 @@ Erik van Haeringen and Gonçalo Macedo
 
 January 31st 2018
 
+[![Build Status](https://travis-ci.org/erikvanhaeringen/plasmidproject.svg?branch=master)](https://travis-ci.org/erikvanhaeringen/plasmidproject)
+
+
 ## Getting Started
 In the main folder, the user can find this README file, containing information about the general purpose, requirements and options of this program. It also contains a **master.py** script which controls the three steps of this program: data setup, sequence alignment and statistical analysis. These steps have each their own subfolder, containing a **master.py** script that controls the operations and possible subscripts. For a detailed explanation of the process of each step please see the comments provided in these scripts.
 

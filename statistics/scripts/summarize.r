@@ -9,7 +9,7 @@
 #  chunk_output_type: console
 #---
 
-setwd("~/Documents/plasmidproject/statistics/scripts/")
+#setwd("~/Documents/plasmidproject/statistics/scripts/")
 
 # Load needed libraries needed (package)
 #install.packages("data.table")

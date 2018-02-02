@@ -94,7 +94,6 @@ def main(ResultDf,PlasmidCount,ArgCount,PlasmidDf,ArgDf,RelativePath):
     print "Running", RScriptPath
 
     #executes r script via the shell
-    proc = subprocess.Popen(["/usr/bin/env Rscript", "--vanilla", RScriptPath], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = proc.communicate()
+    subprocess.call(["/usr/bin/env Rscript", "--vanilla", RScriptPath])
     print "Result table summarizing analysis is printed to /statistics/results/summaryTable.csv"
 

@@ -2,6 +2,8 @@ install:
  - sudo pip install proselint
  - sudo apt-get install npm
  - sudo npm install -g markdown-link-check
+ - sudo apt-get install python-numpy
+ - sudo apt-get install python-pandas 
 
 script: 
  - proselint README.md
